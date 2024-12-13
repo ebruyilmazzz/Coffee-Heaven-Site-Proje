@@ -16,14 +16,15 @@
                 <i><img src="image/WhatsApp Görsel 2024-05-31 saat 14.25.46_f9a883be.jpg" alt="" width="75px"></i>
                 
                <nav>
-               <div class="dropdown">
+             
+                <a href="index.php"><i class="fa-solid fa-house"></i>ANA SAYFA</a>
+  <div class="dropdown">
             <a href="#" class="dropdown-toggle"><i class="fa-solid fa-mug-saucer"></i>Menüler</a>
             <div class="dropdown-menu">
                 <a href="#"><i class="fa-solid fa-mug-saucer"></i>İçecekler</a>
                 <a href="#"><i class="fa-solid fa-utensils"></i>Yiyecekler</a>
             </div>
-        </div>
-                <a href="index.php"><i class="fa-solid fa-house"></i>ANA SAYFA</a>
+             </div>
                 <a href="siparis.php"><i class="fa-solid fa-mug-saucer"></i>Sipariş Oluştur</a>
                 <a href="kayit.php"><i class="fa-solid fa-user-plus"></i>ÜYE OL</a>
                 <a href="cikis.php"><i class="fa-solid fa-user-plus"></i>GİRİS</a>
@@ -40,8 +41,7 @@
             </div>
             <section class="hero">
         <div class="hero-content">
-            <h2>Kendinizi Baştan Yaratın</h2>
-            <p>Profesyonel Saç ve Güzellik Hizmetleri</p>
+           
             <a href="siparis.php" class="btn">Sipariş Oluştur</a>
         </div>
     </section>
