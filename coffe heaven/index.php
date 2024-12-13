@@ -18,7 +18,7 @@
                <nav>
              
                 <a href="index.php"><i class="fa-solid fa-house"></i>ANA SAYFA</a>
-                <div class="dropdown">
+  <div class="dropdown">
             <a href="#" class="dropdown-toggle"><i class="fa-solid fa-mug-saucer"></i>Menüler</a>
             <div class="dropdown-menu">
                 <a href="icecekler.php"><i class="fa-solid fa-mug-saucer"></i>İçecekler</a>
@@ -56,3 +56,4 @@
     </footer>
     </body>  
 </Html>
+
