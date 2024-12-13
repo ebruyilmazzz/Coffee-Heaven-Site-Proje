@@ -18,11 +18,11 @@
                <nav>
              
                 <a href="index.php"><i class="fa-solid fa-house"></i>ANA SAYFA</a>
-  <div class="dropdown">
+                <div class="dropdown">
             <a href="#" class="dropdown-toggle"><i class="fa-solid fa-mug-saucer"></i>Menüler</a>
             <div class="dropdown-menu">
-                <a href="#"><i class="fa-solid fa-mug-saucer"></i>İçecekler</a>
-                <a href="#"><i class="fa-solid fa-utensils"></i>Yiyecekler</a>
+                <a href="icecekler.php"><i class="fa-solid fa-mug-saucer"></i>İçecekler</a>
+                <a href="yiyecekler.php"><i class="fa-solid fa-utensils"></i>Yiyecekler</a>
             </div>
              </div>
                 <a href="siparis.php"><i class="fa-solid fa-mug-saucer"></i>Sipariş Oluştur</a>
@@ -56,4 +56,3 @@
     </footer>
     </body>  
 </Html>
-
