@@ -13,7 +13,7 @@ function register() {
         $calistirekle = mysqli_query($baglanti, $ekle);
 
         if ($calistirekle) {
-            echo '<div class="alert alert-success" role="alert">KAYIT BAŞARIYLA KAYDEDİLMİŞTİR!</div>';
+            echo '<div class="alert alert-success" role="alert">KAYIT BAŞA KAYDEDİLMİŞTİR!</div>';
             echo "<a href='cikis.php' style='color:red;background-color:yellow;border:1px solid red;padding:5px 5px;'>GİRİŞ YAP</a>";
         } else {
             echo '<div class="alert alert-danger" role="alert">KAYIT EKLENİRKEN PROBLEM OLUŞTU</div>';
