@@ -12,7 +12,6 @@ body {
 }
 
 /* Navbar */
-/* Navbar */
 header {
     background-color: #6f4e37; /* Kahverengi */
     padding: 10px 0;
@@ -39,7 +38,7 @@ header {
 
 .navbar ul li {
     margin: 0 15px;
-    position: relative; /* Menüyü konumlandırmak için */
+    position: relative;
 }
 
 .navbar ul li a {
@@ -86,11 +85,9 @@ header {
     background-color: #ddd;
 }
 
-/* Menü açıldığında görünür hale getirme */
 .navbar .dropdown:hover .dropdown-content {
     display: block;
 }
-
 
 /* Hero Bölümü */
 .hero {
@@ -164,8 +161,67 @@ header {
     height: 50px;
 }
 
+/* Sipariş Formu */
+.form-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f6f2; /* Açık krem */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+    text-align: center;
+    color: #6f4e37; /* Kahverengi */
+    margin-bottom: 20px;
+}
+
+.form-container form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-container form input,
+.form-container form select,
+.form-container form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.form-container form input:focus,
+.form-container form select:focus,
+.form-container form textarea:focus {
+    border-color: #6f4e37;
+    outline: none;
+    box-shadow: 0 0 5px rgba(111, 78, 55, 0.5);
+}
+
+.form-container form button {
+    display: block;
+    width: 100%;
+    background-color: #6f4e37; /* Kahverengi */
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-container form button:hover {
+    background-color: #563c28; /* Daha koyu kahverengi */
+}
+
 /* Footer */
-/* Footer Genel Stil */
 footer {
     background-color: #4d3021; /* Koyu kahverengi */
     color: #e0c7a1; /* Açık kahve/bej */
@@ -175,7 +231,7 @@ footer {
 
 .footer-container {
     display: flex;
-    justify-content: space-around; /* Eşit aralıklar */
+    justify-content: space-around;
     text-align: center;
     padding: 10px 0;
 }
@@ -203,7 +259,7 @@ footer {
 .social-icons {
     display: flex;
     justify-content: center;
-    gap: 10px; /* Simge arası boşluk */
+    gap: 10px;
 }
 
 .social-icons img {
@@ -213,14 +269,81 @@ footer {
 }
 
 .social-icons img:hover {
-    transform: scale(1.1); /* Hafif büyütme efekti */
+    transform: scale(1.1);
 }
 
-/* Alt Bilgi */
 .footer-bottom {
     text-align: center;
     margin-top: 10px;
     border-top: 1px solid #5c4432;
     padding-top: 10px;
     font-size: 12px;
+}
+/* Yönetici Giriş Formu */
+.admin-form-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 25px;
+    background-color: #eae7dc; /* Açık kahve/bej */
+    border: 2px solid #6f4e37; /* Kahverengi */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.admin-form-container h2 {
+    text-align: center;
+    color: #6f4e37;
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.admin-form-container form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+.admin-form-container form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.admin-form-container form input:focus {
+    border-color: #6f4e37;
+    outline: none;
+    box-shadow: 0 0 5px rgba(111, 78, 55, 0.5);
+}
+
+.admin-form-container form button {
+    width: 100%;
+    background-color: #6f4e37;
+    color: #fff;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.admin-form-container form button:hover {
+    background-color: #563c28;
+}
+
+/* Ek Stil */
+.admin-form-container form {
+    text-align: center;
+}
+
+.admin-form-container form input[type="text"],
+.admin-form-container form input[type="password"] {
+    text-align: left;
 }
