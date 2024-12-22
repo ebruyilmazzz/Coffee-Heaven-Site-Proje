@@ -19,9 +19,9 @@ class Home extends BaseController
 
     public function test($ornek)
     {
-        $kul_adi="creepa";
-        $sifre="UTuNwGx03EBUNJjn";
-        $adres="cluster0.9sywh.mongodb.net";
+        $kul_adi="coffe_heaven";
+        $sifre="f36XdBTvwVIhf48S";
+        $adres="cluster0.xpgbo.mongodb.net";
         $veritabani="sample_mflix";
 
         switch ($ornek)
@@ -39,10 +39,10 @@ class Home extends BaseController
                 }
             }break;
             case 2:{//çoklu veri sorgulama
-                $koleksiyon_adi='comments';
-                $client = new MongoDB\Client("mongodb+srv://$kul_adi:$sifre@$adres");
+                $koleksiyon_adi='yorumlar';
+                $client = new MongoDB\Client("mongodb://localhost:27017@$adres");
 
-                $koleksiyon = $client->selectCollection($veritabani, $koleksiyon_adi);
+                $koleksiyon = $client->selectCollection("ornek_vtr", $koleksiyon_adi);
                 $document = $koleksiyon->find(['email' => 'john_bishop@fakegmail.com']);
                 //var_dump($document);
                 foreach ($document as $doc) {
