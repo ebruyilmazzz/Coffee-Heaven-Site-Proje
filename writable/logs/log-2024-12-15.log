@@ -1,0 +1,15 @@
+CRITICAL - 2024-12-15 13:14:34 --> syntax error, unexpected '{'
+in APPPATH\Config\Routes.php on line 9.
+ 1 SYSTEMPATH\CodeIgniter.php(787): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 2 SYSTEMPATH\CodeIgniter.php(442): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 3 SYSTEMPATH\CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-12-15 13:27:49 --> Invalid file: "sayfalar/admin.php"
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('sayfalar/admin.php')
+ 2 SYSTEMPATH\Common.php(1188): CodeIgniter\View\View->render('sayfalar/admin', [], true)
+ 3 APPPATH\Controllers\Anasayfa.php(33): view('sayfalar/admin')
+ 4 SYSTEMPATH\CodeIgniter.php(919): App\Controllers\Anasayfa->admin()
+ 5 SYSTEMPATH\CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Anasayfa))
+ 6 SYSTEMPATH\CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
