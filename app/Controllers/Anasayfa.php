@@ -37,9 +37,9 @@ class Anasayfa extends BaseController
     }
     
    
-    public function siparis()
+    public function order_form()
     {
-        return view('tema/header').view('sayfalar/siparis').view('tema/footer');
+        return view('tema/header').view('sayfalar/order_form').view('tema/footer');
     }
     public function login()
     {
