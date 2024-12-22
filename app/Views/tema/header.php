@@ -20,7 +20,7 @@
                         
                     </ul>
                 </li>
-                <li><a href="<?=base_url("siparis")?>">Sipariş Oluştur</a></li>
+                <li><a href="<?=base_url("order_form")?>">Sipariş Oluştur</a></li>
                 <?php
                 if (isset($durum) && $durum)
                  {
