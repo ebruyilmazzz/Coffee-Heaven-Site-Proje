@@ -8,7 +8,7 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Anasayfa::index');
 $routes->match(['get','post'],'icecekler', 'Anasayfa::icecekler');
 
-$routes->match(['get','post'],'siparis', 'Anasayfa::siparis');
+$routes->match(['get','post'],'order_form', 'Anasayfa::order_form');
 $routes->match(['get','post'],'login', 'Anasayfa::login');
 $routes->get('logout', 'Anasayfa::logout');
 
@@ -18,5 +18,6 @@ $routes->match(['get','post'],'kayit_listele', 'Panel::kayit_listele');
 $routes->match(['get','post'],'kayit_sil/(num)', 'Panel::kayit_sil/$1');
 $routes->match(['get','post'],'kayit_duzenle/(num)', 'Panel::kayit_düzenle/$1');
 
-
+$route['order/create'] = 'order/create';
+$route['order/success'] = 'order/success';
 $routes->get('mongo/(:num)', 'Home::test/$1');
