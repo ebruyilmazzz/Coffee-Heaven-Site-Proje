@@ -37,50 +37,51 @@ class Anasayfa extends BaseController
     }
 
     public function login()
-    {
-        $session = session();
-        if ($session->has('durum') && $session->get('durum')) {
-            return redirect()->to(base_url('panel'));
-        } else {
-            if (!$this->request->is('post')) {
-                return view('tema/header') . view('sayfalar/login') . view('tema/footer');
-            }
+{
+    $session = session();
+    if ($session->has('durum') && $session->get('durum')) {
+        return redirect()->to(base_url('panel'));
+    } else {
+        if (!$this->request->is('post')) {
+            return view('tema/header') . view('sayfalar/login') . view('tema/footer');
+        }
 
-            $rules = [
-                'kulad' => 'required',
-                'sifre' => 'required',
-            ];
+        $rules = [
+            'kulad' => 'required',
+            'sifre' => 'required',
+        ];
 
-            if (!$this->validate($rules)) {
-                return view('tema/header') . view('sayfalar/login') . view('tema/footer');
-            }
+        if (!$this->validate($rules)) {
+            return view('tema/header') . view('sayfalar/login') . view('tema/footer');
+        }
 
-            $veri = $this->request->getPost();
-            $model = model('AnasayfaModel');
+        $veri = $this->request->getPost();
+        $model = model('AnasayfaModel');
 
-            // Kullanıcı bilgilerini kullanıcı adı ile sorgula
-            $sor = $model->where(['kulad' => $veri['kulad']])->find();
+        // Kullanıcı bilgilerini kullanıcı adı ile sorgula
+        $sor = $model->where(['kulad' => $veri['kulad']])->find();
 
-            if (count($sor) > 0) {
-                // Hashlenmiş parolayı kontrol et
-                $hashedPassword = $sor[0]['sifre'];
-                if (password_verify($veri['sifre'], $hashedPassword)) {
-                    $kul_bilgi = [
-                        'isim' => $sor[0]['isim'],
-                        'durum' => true
-                    ];
+        if (count($sor) > 0) {
+            // Hashlenmiş parolayı kontrol et
+            $hashedPassword = $sor[0]['sifre'];
+            if (password_verify($veri['sifre'], $hashedPassword)) {
+                $kul_bilgi = [
+                    'kulad' => $sor[0]['kulad'], // isim yerine kulad kullanılıyor
+                    'durum' => true
+                ];
 
-                    $session->set($kul_bilgi);
+                $session->set($kul_bilgi);
 
-                    return redirect()->to(base_url('panel'));
-                } else {
-                    return view('tema/header', ['uyari' => 'Yanlış Parola']) . view('sayfalar/login') . view('tema/footer');
-                }
+                return redirect()->to(base_url('panel'));
             } else {
-                return view('tema/header', ['uyari' => 'Kullanıcı Bulunamadı']) . view('sayfalar/login') . view('tema/footer');
+                return view('tema/header', ['uyari' => 'Yanlış Parola']) . view('sayfalar/login') . view('tema/footer');
             }
+        } else {
+            return view('tema/header', ['uyari' => 'Kullanıcı Bulunamadı']) . view('sayfalar/login') . view('tema/footer');
         }
     }
+}
+
 
     public function generateStaticPassword()
     {
