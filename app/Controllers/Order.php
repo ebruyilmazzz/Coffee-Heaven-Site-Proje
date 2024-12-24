@@ -7,36 +7,42 @@ class Order extends CI_Controller {
         parent::__construct();
         $this->load->library('mongo_db'); // MongoDB kitaplığını yüklüyoruz
         $this->load->helper('url'); // URL yardımı
+        $this->load->library('session'); // Session kütüphanesi
     }
 
     public function create() {
         // Formdan gelen veriyi alıyoruz
-        $customer_name = $this->input->post('customer_name');
-        $email = $this->input->post('email');
-        $phone = $this->input->post('phone');
-        $drink = $this->input->post('drink');
-        $note = $this->input->post('note');
+        $siparis_no = $this->input->post('siparis_no');
+        $musteri_adi = $this->input->post('musteri_adi');
+        $urun = $this->input->post('urun');
+        $tarih = $this->input->post('tarih');
+        $adet = $this->input->post('adet');
         
         // MongoDB'ye kaydedilecek veri
         $order_data = [
-            'customer_name' => $customer_name,
-            'email' => $email,
-            'phone' => $phone,
-            'drink' => $drink,
-            'note' => $note,
-            'created_at' => new MongoDB\BSON\UTCDateTime(), // Sipariş oluşturulma zamanı
+            'siparis_no' => $siparis_no,
+            'musteri_adi' => $musteri_adi,
+            'urun' => $urun,
+            'tarih' => $tarih,
+            'adet' => (int)$adet, // Adet sayısını tam sayı olarak kaydediyoruz
         ];
 
         // MongoDB'ye siparişi ekliyoruz
-        $order_id = $this->mongo_db->create_order($order_data);
+        try {
+            $result = $this->mongo_db->insert('siparisler', $order_data);
 
-        if ($order_id) {
-            // Sipariş başarılıysa bir teşekkür mesajı göster
-            $this->session->set_flashdata('message', 'Siparişiniz başarıyla alındı.');
-            redirect('order/success');
-        } else {
-            // Sipariş eklenemediyse hata mesajı
-            $this->session->set_flashdata('message', 'Bir hata oluştu, lütfen tekrar deneyin.');
+            if ($result) {
+                // Sipariş başarılıysa bir teşekkür mesajı göster
+                $this->session->set_flashdata('message', 'Siparişiniz başarıyla alındı. Sipariş No: ' . $siparis_no);
+                redirect('order/success');
+            } else {
+                // Sipariş eklenemediyse hata mesajı
+                $this->session->set_flashdata('message', 'Bir hata oluştu, lütfen tekrar deneyin.');
+                redirect('order/create');
+            }
+        } catch (Exception $e) {
+            // Hata durumunda mesaj göster
+            $this->session->set_flashdata('message', 'Bir hata oluştu: ' . $e->getMessage());
             redirect('order/create');
         }
     }
@@ -44,6 +50,6 @@ class Order extends CI_Controller {
     public function success() {
         // Başarı mesajı ile sipariş başarıyla alındı ekranını göster
         $data['message'] = $this->session->flashdata('message');
-        $this->load->view('order_success', $data);
-    }
+        $this->load->view('order_success', $data);
+    }
 }

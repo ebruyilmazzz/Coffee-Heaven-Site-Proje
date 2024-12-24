@@ -1,8 +1,4 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Sipariş Oluştur</title>
     <style>
         body {
@@ -49,38 +45,24 @@
     </style>
 </head>
 <body>
-    <!-- Sipariş Formu -->
     <main>
         <section class="form-container">
             <h2>Sipariş Oluştur</h2>
             <form action="" method="POST">
-                <label for="name">Ad Soyad</label>
-                <input type="text" id="name" name="name" required>
+                <label for="siparis_no">Sipariş No</label>
+                <input type="text" id="siparis_no" name="siparis_no" required>
 
-                <label for="email">E-posta</label>
-                <input type="email" id="email" name="email" required>
+                <label for="musteri_adi">Müşteri Adı</label>
+                <input type="text" id="musteri_adi" name="musteri_adi" required>
 
-                <label for="phone">Telefon</label>
-                <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+                <label for="urun">Ürün</label>
+                <input type="text" id="urun" name="urun" required>
 
-                <label for="drink">İçecek Seçimi</label>
-                <select id="drink" name="drink" required>
-                    <option value="">Seçiniz</option>
-                    <option value="kahve">Kahve</option>
-                    <option value="çay">Çay</option>
-                    <option value="latte">Latte</option>
-                </select>
+                <label for="tarih">Tarih</label>
+                <input type="date" id="tarih" name="tarih" required>
 
-                <label for="food">Yiyecek Seçimi</label>
-                <select id="food" name="food" required>
-                    <option value="">Seçiniz</option>
-                    <option value="kurabiye">Kurabiye</option>
-                    <option value="kek">Kek</option>
-                    <option value="sandviç">Sandviç</option>
-                </select>
-
-                <label for="note">Sipariş Notu</label>
-                <textarea id="note" name="note" rows="4"></textarea>
+                <label for="adet">Adet</label>
+                <input type="number" id="adet" name="adet" min="1" required>
 
                 <button type="submit">Sipariş Ver</button>
             </form>
@@ -89,34 +71,30 @@
 
     <?php
     require 'vendor/autoload.php'; // Composer autoload dosyası
-
     use MongoDB\Client;
 
     // MongoDB bağlantısını oluştur
     $client = new Client("mongodb://localhost:27017");
 
     // Veri tabanı ve koleksiyon seç
-    $database = $client->selectDatabase('siparis_db'); // Veri tabanı adı
-    $collection = $database->selectCollection('siparisler'); // Koleksiyon adı
+    $database = $client->siparisler_db; // Veri tabanı adı
+    $collection = $database->siparisler; // Koleksiyon adı
 
     // Form gönderildiğinde işlemleri gerçekleştir
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $name = $_POST['name'] ?? '';
-        $email = $_POST['email'] ?? '';
-        $phone = $_POST['phone'] ?? '';
-        $drink = $_POST['drink'] ?? '';
-        $food = $_POST['food'] ?? '';
-        $note = $_POST['note'] ?? '';
+        $siparis_no = $_POST['siparis_no'] ?? '';
+        $musteri_adi = $_POST['musteri_adi'] ?? '';
+        $urun = $_POST['urun'] ?? '';
+        $tarih = $_POST['tarih'] ?? '';
+        $adet = (int)($_POST['adet'] ?? 1);
 
         // Siparişi MongoDB'ye ekle
         $order = [
-            'name' => $name,
-            'email' => $email,
-            'phone' => $phone,
-            'drink' => $drink,
-            'food' => $food,
-            'note' => $note,
-            'created_at' => new MongoDB\BSON\UTCDateTime()
+            'siparis_no' => $siparis_no,
+            'musteri_adi' => $musteri_adi,
+            'urun' => $urun,
+            'tarih' => $tarih,
+            'adet' => $adet,
         ];
 
         try {
