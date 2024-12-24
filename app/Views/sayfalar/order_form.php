@@ -1,4 +1,8 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sipariş Oluştur</title>
     <style>
         body {
@@ -70,37 +74,32 @@
     </main>
 
     <?php
- var_dump(__DIR__ . '/../vendor/autoload.php');
- exit;
- 
-    // Composer autoload dosyası
+    require __DIR__ . '/../vendor/autoload.php'; // Composer autoload dosyası
     use MongoDB\Client;
 
-    // MongoDB bağlantısını oluştur
-    $client = new Client("mongodb://localhost:27017");
+    try {
+        // MongoDB bağlantısını oluştur
+        $client = new Client("mongodb://localhost:27017");
+        $database = $client->siparisler_db; // Veri tabanı adı
+        $collection = $database->siparisler; // Koleksiyon adı
 
-    // Veri tabanı ve koleksiyon seç
-    $database = $client->siparisler_db; // Veri tabanı adı
-    $collection = $database->siparisler; // Koleksiyon adı
+        // Form gönderildiğinde işlemleri gerçekleştir
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $siparis_no = $_POST['siparis_no'] ?? '';
+            $musteri_adi = $_POST['musteri_adi'] ?? '';
+            $urun = $_POST['urun'] ?? '';
+            $tarih = $_POST['tarih'] ?? '';
+            $adet = (int)($_POST['adet'] ?? 1);
 
-    // Form gönderildiğinde işlemleri gerçekleştir
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $siparis_no = $_POST['siparis_no'] ?? '';
-        $musteri_adi = $_POST['musteri_adi'] ?? '';
-        $urun = $_POST['urun'] ?? '';
-        $tarih = $_POST['tarih'] ?? '';
-        $adet = (int)($_POST['adet'] ?? 1);
+            // Siparişi MongoDB'ye ekle
+            $order = [
+                'siparis_no' => $siparis_no,
+                'musteri_adi' => $musteri_adi,
+                'urun' => $urun,
+                'tarih' => $tarih,
+                'adet' => $adet,
+            ];
 
-        // Siparişi MongoDB'ye ekle
-        $order = [
-            'siparis_no' => $siparis_no,
-            'musteri_adi' => $musteri_adi,
-            'urun' => $urun,
-            'tarih' => $tarih,
-            'adet' => $adet,
-        ];
-
-        try {
             $result = $collection->insertOne($order);
 
             if ($result->getInsertedCount() > 0) {
@@ -108,9 +107,9 @@
             } else {
                 echo "<p style='text-align: center; color: red;'>Sipariş eklenirken bir hata oluştu.</p>";
             }
-        } catch (Exception $e) {
-            echo "<p style='text-align: center; color: red;'>Bir hata oluştu: " . $e->getMessage() . "</p>";
         }
+    } catch (Exception $e) {
+        echo "<p style='text-align: center; color: red;'>Bir hata oluştu: " . $e->getMessage() . "</p>";
     }
     ?>
 </body>
