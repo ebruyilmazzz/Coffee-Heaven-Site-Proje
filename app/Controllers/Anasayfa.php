@@ -43,16 +43,12 @@ class Anasayfa extends BaseController
     }
     public function login()
     {
-        $session= session();
-        if ( $session->has('durum') && $session->get('durum')) 
-        {
-           return redirect()->to(base_url('panel'));
-        }
-        else
-        {
-            if (! $this->request->is('post')) {
-                return view('tema/header').view('sayfalar/login').view('tema/footer');
-
+        $session = session();
+        if ($session->has('durum') && $session->get('durum')) {
+            return redirect()->to(base_url('panel'));
+        } else {
+            if (!$this->request->is('post')) {
+                return view('tema/header') . view('sayfalar/login') . view('tema/footer');
             }
     
             $rules = [
@@ -60,33 +56,37 @@ class Anasayfa extends BaseController
                 'sifre' => 'required',
             ];
     
-    
-            if (! $this->validate($rules)) {
-                return view('tema/header').view('sayfalar/login').view('tema/footer');
-
+            if (!$this->validate($rules)) {
+                return view('tema/header') . view('sayfalar/login') . view('tema/footer');
             }
     
             $veri = $this->validator->getValidated();
-            $model=model('AnasayfaModel');
-
-            $sor=$model->where(['kulad'=>$veri['kulad'],'sifre'=>$veri['sifre']])->find();
-            if (count($sor)>0) 
-            {
-                $kul_bilgi=[
-                   'isim'=>'admin' ,
-                   'durum'=>true 
-                ];
-
-                   $session->set($kul_bilgi);
-
-                   return redirect()->to(base_url('panel'));
+            $model = model('AnasayfaModel');
+    
+            // Kullanıcı bilgilerini kullanıcı adı ile sorgula
+            $sor = $model->where(['kulad' => $veri['kulad']])->find();
+    
+            if (count($sor) > 0) {
+                // Hashlenmiş parolayı kontrol et
+                $hashedPassword = $sor[0]['sifre'];
+                if (password_verify($veri['sifre'], $hashedPassword)) {
+                    $kul_bilgi = [
+                        'isim' => $sor[0]['isim'],
+                        'durum' => true
+                    ];
+    
+                    $session->set($kul_bilgi);
+    
+                    return redirect()->to(base_url('panel'));
+                } else {
+                    return view('tema/header', ['uyari' => 'Yanlış Parola']) . view('sayfalar/login') . view('tema/footer');
+                }
+            } else {
+                return view('tema/header', ['uyari' => 'Kullanıcı Bulunamadı']) . view('sayfalar/login') . view('tema/footer');
             }
-            else{
-                 return view('tema/header',['uyari'=>'Yanlış Kullanıcı'] ).view('sayfalar/login').view('tema/footer');
-
-            }
-       }
+        }
     }
+    
 
     public function  logout()
     {
