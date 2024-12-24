@@ -70,7 +70,8 @@
     </main>
 
     <?php
-    require 'vendor/autoload.php'; // Composer autoload dosyası
+    require __DIR__ . '/../vendor/autoload.php';
+    // Composer autoload dosyası
     use MongoDB\Client;
 
     // MongoDB bağlantısını oluştur
