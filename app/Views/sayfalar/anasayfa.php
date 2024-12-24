@@ -3,7 +3,7 @@
         <section class="hero">
             <h1>Coffee Heaven'a Hoş Geldiniz</h1>
             <p>En kaliteli kahve çeşitleri ve lezzetli atıştırmalıklar ile hizmetinizdeyiz.</p>
-            <button onclick="window.location.href='siparis.php'">Sipariş Oluştur</button>
+            <button onclick="window.location.href='order_form.php'">Sipariş Oluştur</button>
         </section>
 
         <section class="features">

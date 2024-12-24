@@ -70,7 +70,9 @@
     </main>
 
     <?php
-    require __DIR__ . '/../vendor/autoload.php';
+ var_dump(__DIR__ . '/../vendor/autoload.php');
+ exit;
+ 
     // Composer autoload dosyası
     use MongoDB\Client;
 
