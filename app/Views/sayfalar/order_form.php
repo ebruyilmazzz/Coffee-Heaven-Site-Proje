@@ -74,7 +74,7 @@
     </main>
 
     <?php
-    require __DIR__ . '/../vendor/autoload.php'; // Composer autoload dosyası
+var_dump(__DIR__ . '/../vendor/autoload.php');
     use MongoDB\Client;
 
     try {
