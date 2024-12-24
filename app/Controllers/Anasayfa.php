@@ -2,19 +2,14 @@
 namespace App\Controllers;
 use App\Models\AnasayfaModel;
 use MongoDB;// composerla yüklendi
-//genel dokümantasyon --> https://www.mongodb.com/docs/php-library/current/get-started/
-//veri okuma için dokümantasyon --> https://www.mongodb.com/docs/php-library/current/read/
-//veri yazma için dokümantasyon --> https://www.mongodb.com/docs/php-library/current/write/
-
-//mongo kurulum için dokümantasyon --> https://www.mongodb.com/developer/languages/php/php-setup/
-//ek bilgi için dokümantasyon --> https://www.mongodb.com/developer/languages/php/php-crud/
 
 class Anasayfa extends BaseController
 {
     protected $helpers = ['form'];
+
     public function index()
     {   
-     return view('tema/header').view('sayfalar/anasayfa').view('tema/footer');
+        return view('tema/header') . view('sayfalar/anasayfa') . view('tema/footer');
     }
 
     public function icecekler()
@@ -22,25 +17,25 @@ class Anasayfa extends BaseController
         $data = [];
         $model = model('AnasayfaModel');
         $kayitlar = $model->kayitlar();
-    
+
         if (count($kayitlar) > 0) {
             $data['kayitlar'] = $kayitlar;
         }
-    
+
         $session = session(); 
         $data['isim'] = $session->get('isim');
         $data['durum'] = $session->get('durum');
-    
+
         return view('tema/header', $data)
-            . view('sayfalar/icecekler',$data)
+            . view('sayfalar/icecekler', $data)
             . view('tema/footer');
     }
-    
-   
+
     public function order_form()
     {
-        return view('tema/header').view('sayfalar/order_form').view('tema/footer');
+        return view('tema/header') . view('sayfalar/order_form') . view('tema/footer');
     }
+
     public function login()
     {
         $session = session();
@@ -50,22 +45,22 @@ class Anasayfa extends BaseController
             if (!$this->request->is('post')) {
                 return view('tema/header') . view('sayfalar/login') . view('tema/footer');
             }
-    
+
             $rules = [
                 'kulad' => 'required',
                 'sifre' => 'required',
             ];
-    
+
             if (!$this->validate($rules)) {
                 return view('tema/header') . view('sayfalar/login') . view('tema/footer');
             }
-    
-            $veri = $this->validator->getValidated();
+
+            $veri = $this->request->getPost();
             $model = model('AnasayfaModel');
-    
+
             // Kullanıcı bilgilerini kullanıcı adı ile sorgula
             $sor = $model->where(['kulad' => $veri['kulad']])->find();
-    
+
             if (count($sor) > 0) {
                 // Hashlenmiş parolayı kontrol et
                 $hashedPassword = $sor[0]['sifre'];
@@ -74,9 +69,9 @@ class Anasayfa extends BaseController
                         'isim' => $sor[0]['isim'],
                         'durum' => true
                     ];
-    
+
                     $session->set($kul_bilgi);
-    
+
                     return redirect()->to(base_url('panel'));
                 } else {
                     return view('tema/header', ['uyari' => 'Yanlış Parola']) . view('sayfalar/login') . view('tema/footer');
@@ -86,72 +81,76 @@ class Anasayfa extends BaseController
             }
         }
     }
-    
 
-    public function  logout()
+    public function generateStaticPassword()
     {
-       $session=session();
-       $session->destroy();
-       return redirect()->to(base_url('login'));
+        // Şifre "123" için hash oluşturma
+        $password = '123';
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        echo "Hashlenmiş Şifre: " . $hashedPassword;
     }
 
+    public function logout()
+    {
+        $session = session();
+        $session->destroy();
+        return redirect()->to(base_url('login'));
+    }
 
     public function test($ornek)
     {
-        $kul_adi="creepa";
-        $sifre="UTuNwGx03EBUNJjn";
-        $adres="cluster0.9sywh.mongodb.net";
-        $veritabani="sample_mflix";
+        $kul_adi = "creepa";
+        $sifre = "UTuNwGx03EBUNJjn";
+        $adres = "cluster0.9sywh.mongodb.net";
+        $veritabani = "sample_mflix";
 
         switch ($ornek)
         {
-            case 1:{//tek veri sorgulama
-                $koleksiyon_adi='users';
+            case 1: {
+                $koleksiyon_adi = 'users';
                 $client = new MongoDB\Client("mongodb+srv://$kul_adi:$sifre@$adres");
 
                 $koleksiyon = $client->selectCollection($veritabani, $koleksiyon_adi);
                 $document = $koleksiyon->findOne(['email' => 'sean_bean@gameofthron.es']);
-                //var_dump($document);
-                foreach ($document as $key => $value)
-                {
-                    echo $key.' -> '.$value.'<br>';
+
+                foreach ($document as $key => $value) {
+                    echo $key . ' -> ' . $value . '<br>';
                 }
-            }break;
-            case 2:{//çoklu veri sorgulama
-                $koleksiyon_adi='comments';
+            } break;
+            case 2: {
+                $koleksiyon_adi = 'comments';
                 $client = new MongoDB\Client("mongodb+srv://$kul_adi:$sifre@$adres");
 
                 $koleksiyon = $client->selectCollection($veritabani, $koleksiyon_adi);
-                $document = $koleksiyon->find(['email' => 'john_bishop@fakegmail.com']);
-                //var_dump($document);
-                foreach ($document as $doc) {
-                    foreach ($doc as $key => $value)
-                    {
-                        echo $key.' -> '.$value.'<br>';
+                $documents = $koleksiyon->find(['email' => 'john_bishop@fakegmail.com']);
+
+                foreach ($documents as $doc) {
+                    foreach ($doc as $key => $value) {
+                        echo $key . ' -> ' . $value . '<br>';
                     }
                     echo '<hr>';
                 }
-            }break;
-            case 3:{//koleksiyondaki toplam veri miktarı
-                $koleksiyon_adi='users';
+            } break;
+            case 3: {
+                $koleksiyon_adi = 'users';
                 $client = new MongoDB\Client("mongodb+srv://$kul_adi:$sifre@$adres");
 
                 $koleksiyon = $client->selectCollection($veritabani, $koleksiyon_adi);
                 $toplam = $koleksiyon->countDocuments([]);
 
                 echo $toplam;
-            }break;
-            case 4:{//bir sorguyla dönen veri miktarı
-                $koleksiyon_adi='comments';
+            } break;
+            case 4: {
+                $koleksiyon_adi = 'comments';
                 $client = new MongoDB\Client("mongodb+srv://$kul_adi:$sifre@$adres");
 
                 $koleksiyon = $client->selectCollection($veritabani, $koleksiyon_adi);
                 $toplam = $koleksiyon->countDocuments(['email' => 'john_bishop@fakegmail.com']);
 
                 echo $toplam;
-            }break;
-            case 5:{//tek bir veri ekleme
-                $koleksiyon_adi='comments';
+            } break;
+            case 5: {
+                $koleksiyon_adi = 'comments';
                 $client = new MongoDB\Client("mongodb+srv://$kul_adi:$sifre@$adres");
 
                 $koleksiyon = $client->selectCollection($veritabani, $koleksiyon_adi);
@@ -160,10 +159,11 @@ class Anasayfa extends BaseController
                     'email' => 'ozcan@test.com',
                     'text' => 'örnek yorum',
                 ]);
-                //var_dump($sonuc);
-            }break;
-            case 6:{//çoklu veri ekleme
-                $koleksiyon_adi='comments';
+
+                echo 'Inserted ID: ' . $sonuc->getInsertedId();
+            } break;
+            case 6: {
+                $koleksiyon_adi = 'comments';
                 $client = new MongoDB\Client("mongodb+srv://$kul_adi:$sifre@$adres");
 
                 $koleksiyon = $client->selectCollection($veritabani, $koleksiyon_adi);
@@ -180,56 +180,50 @@ class Anasayfa extends BaseController
                     ],
                 ]);
 
-                //var_dump($sonuc);
-            }break;
-            case 7:{//tek bir veriyi güncelleme (sorgulamada ilk çıkan veri güncellenir)
-                $koleksiyon_adi='comments';
+                echo 'Inserted IDs: ' . implode(', ', $sonuc->getInsertedIds());
+            } break;
+            case 7: {
+                $koleksiyon_adi = 'comments';
                 $client = new MongoDB\Client("mongodb+srv://$kul_adi:$sifre@$adres");
 
                 $koleksiyon = $client->selectCollection($veritabani, $koleksiyon_adi);
                 $sonuc = $koleksiyon->updateOne(
-                    [
-                        'email' => 'ozcan@test.com'
-                    ],
+                    ['email' => 'ozcan@test.com'],
                     ['$set' => ['text' => 'yorum güncellendi']]
                 );
-            }break;
-            case 8:{//çoklu veri güncelleme
-                $koleksiyon_adi='comments';
+
+                echo 'Updated Count: ' . $sonuc->getModifiedCount();
+            } break;
+            case 8: {
+                $koleksiyon_adi = 'comments';
                 $client = new MongoDB\Client("mongodb+srv://$kul_adi:$sifre@$adres");
 
                 $koleksiyon = $client->selectCollection($veritabani, $koleksiyon_adi);
                 $sonuc = $koleksiyon->updateMany(
-                    [
-                        'email' => 'ozcan@test.com'
-                    ],
+                    ['email' => 'ozcan@test.com'],
                     ['$set' => ['text' => 'yorum güncellendi']]
                 );
-            }break;
-            case 9:{//tek bir veriyi silme (sorgulamada ilk çıkan veri silinir)
-                $koleksiyon_adi='comments';
+
+                echo 'Updated Count: ' . $sonuc->getModifiedCount();
+            } break;
+            case 9: {
+                $koleksiyon_adi = 'comments';
                 $client = new MongoDB\Client("mongodb+srv://$kul_adi:$sifre@$adres");
 
                 $koleksiyon = $client->selectCollection($veritabani, $koleksiyon_adi);
-                $sonuc = $koleksiyon->deleteOne(
-                    [
-                        //'_id' => new MongoDB\BSON\ObjectId('67519057a2600000f80045d2') //id ile silmek için
-                        'email' => 'ozcan@test.com' //normal silme için
-                    ]
-                );
-            }break;
-            case 10:{//çoklu veri silme
-                $koleksiyon_adi='comments';
+                $sonuc = $koleksiyon->deleteOne(['email' => 'ozcan@test.com']);
+
+                echo 'Deleted Count: ' . $sonuc->getDeletedCount();
+            } break;
+            case 10: {
+                $koleksiyon_adi = 'comments';
                 $client = new MongoDB\Client("mongodb+srv://$kul_adi:$sifre@$adres");
 
                 $koleksiyon = $client->selectCollection($veritabani, $koleksiyon_adi);
-                $sonuc = $koleksiyon->deleteMany(
-                    [
-                        'email' => 'ozcan@test.com'
-                    ]
-                );
-            }break;
+                $sonuc = $koleksiyon->deleteMany(['email' => 'ozcan@test.com']);
+
+                echo 'Deleted Count: ' . $sonuc->getDeletedCount();
+            } break;
         }
-
     }
 }
