@@ -1,55 +1,63 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Order extends CI_Controller {
+namespace App\Controllers;
 
-    public function __construct() {
-        parent::__construct();
-        $this->load->library('mongo_db'); // MongoDB kitaplığını yüklüyoruz
-        $this->load->helper('url'); // URL yardımı
-        $this->load->library('session'); // Session kütüphanesi
-    }
+use MongoDB\Client;
 
-    public function create() {
-        // Formdan gelen veriyi alıyoruz
-        $siparis_no = $this->input->post('siparis_no');
-        $musteri_adi = $this->input->post('musteri_adi');
-        $urun = $this->input->post('urun');
-        $tarih = $this->input->post('tarih');
-        $adet = $this->input->post('adet');
-        
-        // MongoDB'ye kaydedilecek veri
-        $order_data = [
-            'siparis_no' => $siparis_no,
-            'musteri_adi' => $musteri_adi,
-            'urun' => $urun,
-            'tarih' => $tarih,
-            'adet' => (int)$adet, // Adet sayısını tam sayı olarak kaydediyoruz
-        ];
+class Home extends BaseController
+{
+    public function kayit_ekle()
+    {
+        $session = session();
 
-        // MongoDB'ye siparişi ekliyoruz
-        try {
-            $result = $this->mongo_db->insert('siparisler', $order_data);
-
-            if ($result) {
-                // Sipariş başarılıysa bir teşekkür mesajı göster
-                $this->session->set_flashdata('message', 'Siparişiniz başarıyla alındı. Sipariş No: ' . $siparis_no);
-                redirect('order/success');
-            } else {
-                // Sipariş eklenemediyse hata mesajı
-                $this->session->set_flashdata('message', 'Bir hata oluştu, lütfen tekrar deneyin.');
-                redirect('order/create');
-            }
-        } catch (Exception $e) {
-            // Hata durumunda mesaj göster
-            $this->session->set_flashdata('message', 'Bir hata oluştu: ' . $e->getMessage());
-            redirect('order/create');
+        if (!($session->has('durum') && $session->get('durum'))) {
+            return redirect()->to(base_url('login'));
         }
-    }
 
-    public function success() {
-        // Başarı mesajı ile sipariş başarıyla alındı ekranını göster
-        $data['message'] = $this->session->flashdata('message');
-        $this->load->view('order_success', $data);
+ 
+        if ($this->request->getMethod() !== 'post') {
+            return $this->loadViews(['sayfalar/kayit_ekle'], ['durum' => $session->get('durum')]);
+        } else {
+          
+            $rules = [
+                'siparis_no' => 'required',
+                'musteri_adi' => 'required',
+                'urun' => 'required',
+                'tarih' => 'required',
+                'adet' => 'required|numeric',
+            ];
+
+            if (!$this->validate($rules)) {
+                return redirect()->back()->withInput()->with('error', 'Form doğrulama hatası!');
+            }
+
+    
+            $kul_adi = "coffe_heaven";
+            $sifre = "f36XdBTvwVIhf48S";
+            $adres = "cluster0.xpgbo.mongodb.net";
+            $veritabani = "siparisler_db";
+            $koleksiyon_adi = "siparisler";
+
+            try {
+                $client = new Client("mongodb+srv://$kul_adi:$sifre@$adres");
+                $koleksiyon = $client->selectCollection($veritabani, $koleksiyon_adi);
+
+                $result = $koleksiyon->insertOne([
+                    'siparis_no' => $this->request->getPost('siparis_no'),
+                    'musteri_adi' => $this->request->getPost('musteri_adi'),
+                    'urun' => $this->request->getPost('urun'),
+                    'tarih' => $this->request->getPost('tarih'),
+                    'adet' => (int)$this->request->getPost('adet'),
+                ]);
+
+                if ($result->getInsertedCount() > 0) {
+                    return redirect()->to(base_url('kayit_ekle'))->with('message', 'Sipariş başarıyla eklendi!');
+                } else {
+                    return redirect()->to(base_url('kayit_ekle'))->with('error', 'Sipariş eklenirken bir hata oluştu!');
+                }
+            } catch (\Exception $e) {
+                return redirect()->to(base_url('kayit_ekle'))->with('error', 'MongoDB bağlantı hatası: ' . $e->getMessage());
+            }
+        }
     }
 }

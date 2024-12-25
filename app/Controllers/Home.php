@@ -22,16 +22,16 @@ class Home extends BaseController
         $kul_adi="coffe_heaven";
         $sifre="f36XdBTvwVIhf48S";
         $adres="cluster0.xpgbo.mongodb.net";
-        $veritabani="sample_mflix";
+        $veritabani="siparisler_db";
 
         switch ($ornek)
         {
             case 1:{//tek veri sorgulama
-                $koleksiyon_adi='users';
-                $client = new MongoDB\Client("mongodb+srv://$kul_adi:$sifre@$adres");
+                $koleksiyon_adi='siparisler';
+                $client = new MongoDB\Client("mongodb://localhost:27017");
 
                 $koleksiyon = $client->selectCollection($veritabani, $koleksiyon_adi);
-                $document = $koleksiyon->findOne(['email' => 'sean_bean@gameofthron.es']);
+                $document = $koleksiyon->findOne(['siparis_no' => '12345']);
                 //var_dump($document);
                 foreach ($document as $key => $value)
                 {
@@ -39,11 +39,11 @@ class Home extends BaseController
                 }
             }break;
             case 2:{//çoklu veri sorgulama
-                $koleksiyon_adi='yorumlar';
-                $client = new MongoDB\Client("mongodb://localhost:27017@$adres");
+                $koleksiyon_adi='siparisler';
+                $client = new MongoDB\Client("mongodb://localhost:27017");
 
-                $koleksiyon = $client->selectCollection("ornek_vtr", $koleksiyon_adi);
-                $document = $koleksiyon->find(['email' => 'john_bishop@fakegmail.com']);
+                $koleksiyon = $client->selectCollection($veritabani, $koleksiyon_adi);
+                $document = $koleksiyon->find(['siparis_no' => '12345']);
                 //var_dump($document);
                 foreach ($document as $doc) {
                     foreach ($doc as $key => $value)
@@ -72,8 +72,8 @@ class Home extends BaseController
                 echo $toplam;
             }break;
             case 5:{//tek bir veri ekleme
-                $koleksiyon_adi='comments';
-                $client = new MongoDB\Client("mongodb+srv://$kul_adi:$sifre@$adres");
+                $koleksiyon_adi='siparisler';
+                $client = new MongoDB\Client("mongodb://localhost:27017");
 
                 $koleksiyon = $client->selectCollection($veritabani, $koleksiyon_adi);
                 $sonuc = $koleksiyon->insertOne([
