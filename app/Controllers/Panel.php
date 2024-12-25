@@ -26,49 +26,53 @@ class Panel extends BaseController
 
     public function kayit_ekle()
     {
+        
         $session = session();
 
         if (!($session->has('durum') && $session->get('durum'))) {
             return redirect()->to(base_url('login'));
         }
-
-        if (!$this->request->getMethod() === 'post') {
+        
+        if ($this->request->getMethod() !== 'post') {
             return $this->loadViews(['sayfalar/kayit_ekle'], ['durum' => $session->get('durum')]);
         }
-
-        $rules = [
-            'urunAdi' => 'required',
-            'urunFiyati' => 'required',
-            'resim' => 'uploaded[resim]|max_size[resim,1024]',
-        ];
-
-        if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('error', 'Form dogrulama hatasi!');
-        }
-
-        $model = model('PanelModel');
-        $img = $this->request->getFile('resim');
-
-        if ($img->isValid() && !$img->hasMoved()) {
-            $path = FCPATH . 'uploads/';
-            $name = $img->getRandomName();
-            $img->move($path, $name);
-
-            $result = $model->veri_ekle(
-                $this->request->getPost('urunAdi'),
-                url_title($this->request->getPost('url'), '_', true),
-                $this->request->getPost('urunFiyati'),
-                $name
-            );
-
-            if ($result) {
-                return redirect()->to(base_url('kayit_ekle'))->with('message', 'Urun basariyla eklendi!');
-            } else {
-                return redirect()->to(base_url('kayit_ekle'))->with('error', 'Urun eklenirken bir hata olustu!');
+        else
+        {
+            $rules = [
+                'urunAdi' => 'required',
+                'urunFiyati' => 'required',
+                'resim' => 'uploaded[resim]|max_size[resim,1024]',
+            ];
+    
+            if (!$this->validate($rules)) {
+                return redirect()->back()->withInput()->with('error', 'Form dogrulama hatasi!');
             }
-        } else {
-            return redirect()->to(base_url('kayit_ekle'))->with('error', 'Resim yuklenirken bir hata olustu!');
+    
+            $model = model('PanelModel');
+            $img = $this->request->getFile('resim');
+    
+            if ($img->isValid() && !$img->hasMoved()) {
+                $path = FCPATH . 'uploads/';
+                $name = $img->getRandomName();
+                $img->move($path, $name);
+    
+                $result = $model->veri_ekle(
+                    $this->request->getPost('urunAdi'),
+                    url_title($this->request->getPost('url'), '_', true),
+                    $this->request->getPost('urunFiyati'),
+                    $name
+                );
+    
+                if ($result) {
+                    return redirect()->to(base_url('kayit_ekle'))->with('message', 'Urun basariyla eklendi!');
+                } else {
+                    return redirect()->to(base_url('kayit_ekle'))->with('error', 'Urun eklenirken bir hata olustu!');
+                }
+            } else {
+                return redirect()->to(base_url('kayit_ekle'))->with('error', 'Resim yuklenirken bir hata olustu!');
+            }
         }
+        
     }
 
     public function kayit_sil($id)

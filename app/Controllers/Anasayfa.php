@@ -81,8 +81,6 @@ class Anasayfa extends BaseController
         }
     }
 }
-
-
     public function generateStaticPassword()
     {
         // Şifre "123" için hash oluşturma
@@ -103,35 +101,37 @@ class Anasayfa extends BaseController
         $kul_adi = "creepa";
         $sifre = "UTuNwGx03EBUNJjn";
         $adres = "cluster0.9sywh.mongodb.net";
-        $veritabani = "sample_mflix";
+        $veritabani = "siparis_db";
 
         switch ($ornek)
         {
-            case 1: {
-                $koleksiyon_adi = 'users';
-                $client = new MongoDB\Client("mongodb+srv://$kul_adi:$sifre@$adres");
+            case 1:{//tek veri sorgulama
+                $koleksiyon_adi='siparisler';
+                $client = new MongoDB\Client("mongodb://localhost:27017");
 
-                $koleksiyon = $client->selectCollection($veritabani, $koleksiyon_adi);
-                $document = $koleksiyon->findOne(['email' => 'sean_bean@gameofthron.es']);
-
-                foreach ($document as $key => $value) {
-                    echo $key . ' -> ' . $value . '<br>';
+                $koleksiyon = $client->selectCollection("siparisler_db", $koleksiyon_adi);
+                $document = $koleksiyon->findOne(['siparis_no' => '12345']);
+                //var_dump($document);
+                foreach ($document as $key => $value)
+                {
+                    echo $key.' -> '.$value.'<br>';
                 }
-            } break;
-            case 2: {
-                $koleksiyon_adi = 'comments';
-                $client = new MongoDB\Client("mongodb+srv://$kul_adi:$sifre@$adres");
+            }break;
+            case 2:{//çoklu veri sorgulama
+                $koleksiyon_adi='siparisler';
+                $client = new MongoDB\Client("mongodb://localhost:27017");
 
-                $koleksiyon = $client->selectCollection($veritabani, $koleksiyon_adi);
-                $documents = $koleksiyon->find(['email' => 'john_bishop@fakegmail.com']);
-
-                foreach ($documents as $doc) {
-                    foreach ($doc as $key => $value) {
-                        echo $key . ' -> ' . $value . '<br>';
+                $koleksiyon = $client->selectCollection("siparis_db", $koleksiyon_adi);
+                $document = $koleksiyon->find(['siparis_no' => '12345']);
+                //var_dump($document);
+                foreach ($document as $doc) {
+                    foreach ($doc as $key => $value)
+                    {
+                        echo $key.' -> '.$value.'<br>';
                     }
                     echo '<hr>';
                 }
-            } break;
+            }break;
             case 3: {
                 $koleksiyon_adi = 'users';
                 $client = new MongoDB\Client("mongodb+srv://$kul_adi:$sifre@$adres");

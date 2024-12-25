@@ -15,8 +15,8 @@ $routes->get('logout', 'Anasayfa::logout');
 $routes->get('panel', 'Panel::index');
 $routes->match(['get','post'],'kayit_ekle', 'Panel::kayit_ekle');
 $routes->match(['get','post'],'kayit_listele', 'Panel::kayit_listele');
-$routes->match(['get','post'],'kayit_sil/(num)', 'Panel::kayit_sil/$1');
-$routes->match(['get','post'],'kayit_duzenle/(num)', 'Panel::kayit_düzenle/$1');
+$routes->get('kayit_sil/(:num)', 'Panel::kayit_sil/$1');
+$routes->match(['get','post'],'kayit_duzenle/(:num)', 'Panel::kayit_duzenle/$1');
 
 $route['order/create'] = 'order/create';
 $route['order/success'] = 'order/success';
