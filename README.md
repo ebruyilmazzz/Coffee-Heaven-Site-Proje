@@ -38,6 +38,7 @@ Projenin arka yüzü (back-end), kahve siparişlerini işlemek ve veritabanı il
 ## MongoDB
 
 Proje, veri depolama için MongoDB kullanmaktadır. MongoDB, sipariş verilerinin esnek ve ölçeklenebilir bir şekilde saklanmasını sağlar.
+MongoDb verisini localhost 27017 adresinde localhosta çıktık
 
 - **Kullanılan Dosyalar**:
   - `siparisler_db.siparisler.json`: Örnek sipariş verilerini içeren JSON dosyası.
