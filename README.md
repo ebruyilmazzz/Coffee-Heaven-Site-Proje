@@ -1,54 +1,54 @@
-# CodeIgniter 4 Framework
+# Coffee Heaven Site Proje
 
-## What is CodeIgniter?
+Bu proje, bir kahve sipariş yönetim sistemi sunan bir web uygulamasıdır. Aşağıda projenin front-end, back-end ve MongoDB kullanımına ilişkin detaylı bilgiler bulunmaktadır.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+---
 
-This repository holds the distributable version of the framework.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## Front-End
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+Projenin ön yüzü (front-end), kullanıcıların kahve siparişlerini kolaylıkla yönetebilmesi için tasarlanmıştır. 
 
-The user guide corresponding to the latest version of the framework can be found
-[here](https://codeigniter4.github.io/userguide/).
+- **Kullanılan Teknolojiler**: HTML, CSS, JavaScript.
+- **Ana Özellikler**:
+  - Şık ve kullanıcı dostu bir tasarım.
+  - Dinamik içerik güncellemeleri için JavaScript.
+  - Mobil cihazlarla uyumlu tasarım (responsive design).
+- **Yapı**:
+  - Tüm statik dosyalar `public` dizininde yer almaktadır.
+  - CSS ve JavaScript dosyaları, HTML dosyalarına bağlanarak kullanıcı arayüzü oluşturulmuştur.
 
-## Important Change with index.php
+---
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+## Back-End
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+Projenin arka yüzü (back-end), kahve siparişlerini işlemek ve veritabanı ile iletişim kurmak için geliştirilmiştir.
 
-**Please** read the user guide for a better explanation of how CI4 works!
+- **Kullanılan Teknolojiler**: PHP, CodeIgniter Framework.
+- **Ana Özellikler**:
+  - RESTful API desteği.
+  - Siparişlerin CRUD (Create, Read, Update, Delete) işlemleri.
+  - Güvenli veri işleme ve doğrulama mekanizmaları.
+- **Yapı**:
+  - Back-end kodları `app` dizininde yer almaktadır.
+  - İş mantığı ve veritabanı işlemleri, kontrolörler ve modeller aracılığıyla gerçekleştirilmiştir.
+  - Framework tarafından sağlanan sistem dosyaları `system` dizininde bulunmaktadır.
 
-## Repository Management
+---
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+## MongoDB
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+Proje, veri depolama için MongoDB kullanmaktadır. MongoDB, sipariş verilerinin esnek ve ölçeklenebilir bir şekilde saklanmasını sağlar.
 
-## Contributing
+- **Kullanılan Dosyalar**:
+  - `siparisler_db.siparisler.json`: Örnek sipariş verilerini içeren JSON dosyası.
+- **Ana Özellikler**:
+  - NoSQL yapısı sayesinde hızlı sorgulama ve veri işleme.
+  - JSON formatındaki belgelerle doğal uyum.
+- **Yapı**:
+  - Veritabanı, sipariş bilgilerini saklamak ve işlemek için kullanılır.
+  - Uygulama, MongoDB'ye bağlanarak siparişleri okur ve günceller.
 
-We welcome contributions from the community.
+---
 
-Please read the [*Contributing to CodeIgniter*](https://github.com/codeigniter4/CodeIgniter4/blob/develop/CONTRIBUTING.md) section in the development repository.
+Bu bilgiler, projenin teknik bileşenleri hakkında genel bir anlayış sunmaktadır. Ek detaylar veya açıklamalar için geliştirici dokümantasyonunu inceleyebilirsiniz.
 
-## Server Requirements
-
-PHP version 7.4 or higher is required, with the following extensions installed:
-
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
