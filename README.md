@@ -41,7 +41,7 @@ Proje, veri depolama için MongoDB kullanmaktadır. MongoDB, sipariş verilerini
 MongoDb verisini localhost 27017 adresinde localhosta çıktık
 
 - **Kullanılan Dosyalar**:
-  - `siparisler_db.siparisler.json`: Örnek sipariş verilerini içeren JSON dosyası.
+  - `order_php order_form.php.`: Örnek sipariş verilerini içeren JSON dosyası.
 - **Ana Özellikler**:
   - NoSQL yapısı sayesinde hızlı sorgulama ve veri işleme.
   - JSON formatındaki belgelerle doğal uyum.
