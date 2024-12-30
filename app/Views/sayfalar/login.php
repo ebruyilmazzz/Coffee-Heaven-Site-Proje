@@ -15,7 +15,7 @@
             <form action="<?=base_url('login')?>" method="POST">
                <?=csrf_field()?> 
 
-                <label for="kulad">Kullanıcı Adı</label>
+                <label for="kulad">Kullanici  Adi</label>
                 <input type="text" id="kulad" name="kulad" required>
 
                 <label for="sifre">Şifre</label>
