@@ -25,7 +25,6 @@ Projenin arka yüzü (back-end), kahve siparişlerini işlemek ve veritabanı il
 
 - **Kullanılan Teknolojiler**: PHP, CodeIgniter Framework.
 - **Ana Özellikler**:
-  - RESTful API desteği.
   - Siparişlerin CRUD (Create, Read, Update, Delete) işlemleri.
   - Güvenli veri işleme ve doğrulama mekanizmaları.
 - **Yapı**:
@@ -41,10 +40,7 @@ Proje, veri depolama için MongoDB kullanmaktadır. MongoDB, sipariş verilerini
 MongoDb verisini localhost 27017 adresinde localhosta çıktık
 
 - **Kullanılan Dosyalar**:
-  - `order_php order_form.php.`: Örnek sipariş verilerini içeren JSON dosyası.
-- **Ana Özellikler**:
-  - NoSQL yapısı sayesinde hızlı sorgulama ve veri işleme.
-  - JSON formatındaki belgelerle doğal uyum.
+  - `order_php order_form.php.`: Örnek sipariş verilerini içeren dosya.
 - **Yapı**:
   - Veritabanı, sipariş bilgilerini saklamak ve işlemek için kullanılır.
   - Uygulama, MongoDB'ye bağlanarak siparişleri okur ve günceller.
