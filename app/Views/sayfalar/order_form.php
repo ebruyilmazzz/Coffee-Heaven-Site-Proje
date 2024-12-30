@@ -103,7 +103,7 @@ var_dump(__DIR__ . '/../vendor/autoload.php');
             $result = $collection->insertOne($order);
 
             if ($result->getInsertedCount() > 0) {
-                echo "<p style='text-align: center; color: green;'>Sipariş başarıyla oluşturuldu! Sipariş ID: " . $result->getInsertedId() . "</p>";
+                echo "<p style='text-align: center; color: green;'>Sipariş başariyla oluşturuldu! Sipariş ID: " . $result->getInsertedId() . "</p>";
             } else {
                 echo "<p style='text-align: center; color: red;'>Sipariş eklenirken bir hata oluştu.</p>";
             }
